@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    const users = sequelize.define(
-        "users",
+    const products = sequelize.define(
+        "products",
         {
             id: {
                 unique: true,
@@ -13,37 +13,33 @@ module.exports = (sequelize) => {
                 field: "id",
                 comment: "ไอดีของตาราง",
             },
-            username: {
+            name: {
                 allowNull: false,
                 type: DataTypes.STRING,
-                field: "username",
+                field: "name",
             },
-            password: {
+            description: {
+                type: DataTypes.TEXT,
+                field: "description",
+            },
+            price: {
+                allowNull: false,
+                type: DataTypes.INTEGER,
+                field: "price",
+            },
+            brand: {
                 allowNull: false,
                 type: DataTypes.STRING,
-                field: "password",
+                field: "brand",
             },
-            role: {
+            amount: {
                 allowNull: false,
-                type: DataTypes.ENUM,
-                values: ["admin", "user", "seller"],
-                field: "role",
+                type: DataTypes.INTEGER,
+                field: "amount",
             },
-            firstName: {
+            image: {
                 type: DataTypes.STRING,
-                field: "first_name",
-            },
-            lastName: {
-                type: DataTypes.STRING,
-                field: "last_name",
-            },
-            phoneNumber: {
-                type: DataTypes.STRING,
-                field: "phone_number",
-            },
-            address: {
-                type: DataTypes.STRING,
-                field: "address",
+                field: "image",
             },
             deleted: {
                 type: DataTypes.BOOLEAN,
@@ -64,23 +60,23 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            modelName: "users",
-            tableName: "users",
+            modelName: "products",
+            tableName: "products",
             timestamps: true,
         }
     );
 
-    users.associate = (models) => {
-        users.hasMany(models.payments, {
+    products.associate = (models) => {
+        products.belongsTo(models.users, {
             foreignKey: { name: "userId", field: "user_id" },
         });
-        users.hasMany(models.orders, {
-            foreignKey: { name: "userId", field: "user_id" },
+        products.belongsTo(models.orders, {
+            foreignKey: { name: "orderId", field: "order_id" },
         });
-        users.hasMany(models.products, {
-            foreignKey: { name: "userId", field: "user_id" },
+        products.belongsTo(models.categories, {
+            foreignKey: { name: "categoryId", field: "category_id" },
         });
     };
 
-    return users;
+    return products;
 };

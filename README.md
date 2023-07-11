@@ -13,7 +13,7 @@
 ## ⬇️ Install packages
 
 ```shell
-npm run install
+npm install
 ```
 
 ## ⚡️ Run
